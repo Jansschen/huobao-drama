@@ -2385,18 +2385,9 @@ const downloadVideo = async (url: string, title: string) => {
       duration: 0
     })
 
-    // 使用fetch获取视频blob
-    const response = await fetch(url)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const blob = await response.blob()
-    const blobUrl = window.URL.createObjectURL(blob)
-
     // 创建下载链接
     const link = document.createElement('a')
-    link.href = blobUrl
+    link.href = url
     link.download = `${title}.mp4`
     link.style.display = 'none'
     document.body.appendChild(link)
@@ -2405,7 +2396,6 @@ const downloadVideo = async (url: string, title: string) => {
     // 清理
     setTimeout(() => {
       document.body.removeChild(link)
-      window.URL.revokeObjectURL(blobUrl)
     }, 100)
 
     loadingMsg.close()
